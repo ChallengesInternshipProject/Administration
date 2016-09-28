@@ -1,7 +1,7 @@
 'use strict';
 
 angular
-  .module('app.reports', ['ui.router'])
+  .module('app.reports', ['ui.bootstrap'])
   .config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('reports', {
@@ -11,11 +11,25 @@ angular
         controllerAs: 'vm'
       })
   })
-  .controller('ReportsController', function () {
-    var ctrl = this;
+  .controller('ReportsController', ['$http', '$log', function ($http, $log) {
+    var $ctrl = this;
+
+    // Get the reports when the page loads
+    getReports()
+
+
+    // Set the get reports function
+    function getReports() {
+      $http.get('http://localhost:3000/reports')
+        .then((response) => {
+          $log.info('Reports loaded')
+          $ctrl.reports = response.data
+        })
+    }
+
     // less.registerStylesheets();
     // less.refresh(true);
-    ctrl.test = 'it works'
-
-
-  })
+    $ctrl.getReports = () => {
+      return getReports()
+    }
+  }])

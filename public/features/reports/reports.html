@@ -1,8 +1,27 @@
 <div class="row">
-  <div class="col-md-2">left</div>
-  <div class="col-md-8">middle
+    <div class="col-md-2">left</div>
+    <div class="col-md-8">
 
-  <button class="btn btn-default">bootstrap</button>
-</div>
-  <div class="col-md-2">right</div>
+        <button class="btn btn-default" ng-click=vm.getReports()>Get the reports</button>
+        <table class="table table-striped">
+            <thead>
+                <th>Report ID</th>
+                <th>Type</th>
+                <th>Report For</th>
+                <th>Date</th>
+            </thead>
+            <tbody>
+                <tr ng-repeat="report in vm.reports">
+                    <td>{{report._id}}</td>
+                    <td>{{report.flagType}}</td>
+                    <td>{{report.reportFor}}</td>
+                    <td>{{report.date}}</td>
+                </tr>
+            </tbody>
+            <tfoot>
+
+            </tfoot>
+        </table>
+    </div>
+    <div class="col-md-2">right</div>
 </div>
