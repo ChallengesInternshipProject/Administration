@@ -1,0 +1,23 @@
+{
+  "name": "Administration",
+  "description": "",
+  "main": "",
+  "authors": [
+    "Krasimir Velichkov <krasimirvelichkov@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/ChallengesInternshipProject/Administration",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.5.8",
+    "angular-ui-router": "ui-router#^0.3.1",
+    "angular-bootstrap": "^2.1.4",
+    "bootstrap": "^3.3.7"
+  }
+}
