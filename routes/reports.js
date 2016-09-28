@@ -34,6 +34,7 @@ router.post('/add', (req, res, next) => {
     flagType: data.flagType,
     userID: data.userID,
     reportFor: data.reportFor,
+    reportTargetID: data.reportTargetID,
     // Get server date
     date: Date.now()
   })

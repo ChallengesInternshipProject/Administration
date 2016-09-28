@@ -1,21 +1,59 @@
+<!-- Start of modal -->
+<script type="text/ng-template" id="myModalContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">Generate Test Report</h3>
+    </div>
+    <div class="modal-body" id="modal-body">
+        <div class="form-group">
+            <input type="text" class="form-control" ng-model="vm.testReport.flagType" placeholder="Type">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" ng-model="vm.testReport.reportFor" placeholder="Report For">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" ng-model="vm.testReport.userID" placeholder="Creator" value="By Administrator" disabled>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" ng-model="vm.testReport.reportTargetID" placeholder="Report Target ID">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="vm.generateReport()">Save</button>
+        <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
+    </div>
+</script>
+<!-- End of modal -->
+
+
 <div class="row">
-    <div class="col-md-2">left</div>
+    <div class="col-md-2">Side menu here</div>
     <div class="col-md-8">
 
         <button class="btn btn-default" ng-click=vm.getReports()>Get the reports</button>
+        <button class="btn btn-default" ng-click=vm.generateTestReport()>Generate test report</button>
+
         <table class="table table-striped">
             <thead>
                 <th>Report ID</th>
                 <th>Type</th>
                 <th>Report For</th>
+                <th>Creator</th>
                 <th>Date</th>
+                <th>Action</th>
             </thead>
             <tbody>
                 <tr ng-repeat="report in vm.reports">
                     <td>{{report._id}}</td>
-                    <td>{{report.flagType}}</td>
-                    <td>{{report.reportFor}}</td>
-                    <td>{{report.date}}</td>
+                    <td>{{vm.getType(report.flagType)}}</td>
+                    <td>{{vm.reportFor(report.reportFor)}}</td>
+                    <td>{{report.userID}}</td>
+
+                    <td>{{report.date | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                    <td>
+                        <button class="btn btn-success">View</button>
+                        <button class="btn btn-danger">Remove/Disable</button>
+                        <button class="btn btn-info">Mark</button>
+                    </td>
                 </tr>
             </tbody>
             <tfoot>
@@ -23,5 +61,5 @@
             </tfoot>
         </table>
     </div>
-    <div class="col-md-2">right</div>
+    <div class="col-md-2">Last 10 dares</div>
 </div>
