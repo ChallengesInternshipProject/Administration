@@ -1,18 +1,43 @@
-'use strict';
+'use strict'
 
 angular
   .module('app.reports', ['ui.bootstrap'])
   .config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('reports', {
-        url: "/reports",
-        templateUrl: "features/reports/reports.html",
+        url: '/reports',
+        templateUrl: 'features/reports/reports.html',
         controller: 'ReportsController',
         controllerAs: 'vm'
       })
   })
-  .controller('ReportsController', ['$http', '$log', '$uibModal', function ($http, $log, $uibModal) {
+  .controller('ReportsController', ['$http', '$log', '$uibModal', 'ReportInfoService', function ($http, $log, $uibModal, ReportInfoService) {
     var $ctrl = this;
+
+    $ctrl.dares = {}
+
+    // Get the reports when the page loads
+
+
+    $ctrl.getReports = () => {
+      ReportInfoService.getReports()
+        .then(function (reports) {
+          $ctrl.reports = reports
+        })
+    }
+
+    $ctrl.getReports()
+
+    $ctrl.getDares = () => {
+      ReportInfoService.getDares().then(function (dares) {
+        $ctrl.dares = dares
+      })
+    }
+
+    $ctrl.getDares()
+
+    //Get the dares TODO Put in different service
+
 
     $ctrl.testReport = {
       flagType: 1,
@@ -22,41 +47,16 @@ angular
 
     }
 
-    $ctrl.getType = function (type) {
-      switch (type) {
-      case 1:
-        return 'Negative'
-        break
-      case 2:
-        return 'Toxic'
-        break;
-      case 3:
-        return 'Abuse'
-        break
+    $ctrl.getType = ReportInfoService.getReportType
+    $ctrl.reportFor = ReportInfoService.getReportFor
 
-      default:
-        return 'Other'
-        break
-      }
+    $ctrl.removeReport = (reportID) => {
+      ReportInfoService.removeReport(reportID)
+        // Reload the reports again
+      $ctrl.getReports()
     }
 
-    $ctrl.reportFor = function (type) {
-      switch (type) {
-      case 1:
-        return 'Dare'
-        break
-      case 2:
-        return 'Message'
-        break;
-      case 3:
-        return 'Post'
-        break
 
-      default:
-        return 'Picture'
-        break
-      }
-    }
 
     $ctrl.generateTestReport = (size) => {
       var modalInstance = $uibModal.open({
@@ -66,22 +66,33 @@ angular
         templateUrl: 'myModalContent.html',
         controller: 'ReportsController',
         controllerAs: 'vm',
-        size: size,
-        resolve: {
-          items: function () {
-            return $ctrl.items
-          }
-        }
+        size: size
+          // resolve: {
+          //   items: function () {
+          //     return $ctrl.items
+          //   }
+          // }
       })
 
       modalInstance.result.then((selectedItem) => {
         $ctrl.selected = selectedItem
       }, () => {
+
+        //Get the reports after the modal is closed
+        $ctrl.getReports()
         $log.info('Modal dismissed at: ' + new Date())
       })
     }
 
+    $ctrl.viewReport = function (report_id, report_object_type) {
+      alert("Navigation to Object in server view")
+    }
+
     $ctrl.generateReport = () => {
+      $log.info($ctrl.reports)
+
+      $ctrl.reports = {}
+      $log.info($ctrl.reports)
       $http({
           url: 'http://localhost:3000/reports/add',
           method: 'POST',
@@ -99,28 +110,17 @@ angular
           // when the response is available
         }, function errorCallback(response) {
           $log.info(response)
-            // called asynchronously if an error occurs
-            // or server returns response with an error status.
+
+          // called asynchronously if an error occurs
+          // or server returns response with an error status.
         })
     }
-
-
-    // Get the reports when the page loads
-    getReports()
 
 
     // Set the get reports function
-    function getReports() {
-      $http.get('http://localhost:3000/reports')
-        .then((response) => {
-          $log.info('Reports loaded')
-          $ctrl.reports = response.data
-        })
-    }
+
 
     // less.registerStylesheets();
     // less.refresh(true);
-    $ctrl.getReports = () => {
-      return getReports()
-    }
+
   }])

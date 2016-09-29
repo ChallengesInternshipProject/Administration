@@ -52,7 +52,6 @@ router.post('/add', (req, res, next) => {
 router.delete('/remove', (req, res, next) => {
   var reportID = req.query.reportID
 
-
   // Find the report and then execute remove
   Report.find({
     _id: reportID

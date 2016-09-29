@@ -1,4 +1,4 @@
-<!-- Start of modal -->
+<!-- Start of Test Report modal -->
 <script type="text/ng-template" id="myModalContent.html">
     <div class="modal-header">
         <h3 class="modal-title" id="modal-title">Generate Test Report</h3>
@@ -24,15 +24,32 @@
 </script>
 <!-- End of modal -->
 
+<!-- Start of View Report modal -->
+<script type="text/ng-template" id="viewReportModal.html">
+    <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">View Report</h3>
+    </div>
+    <div class="modal-body" id="modal-body">
+        {{vm.testData}}
+
+
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="vm.generateReport()">Save</button>
+        <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
+    </div>
+</script>
+<!-- End of modal -->
 
 <div class="row">
-    <div class="col-md-2">Side menu here</div>
+    <div class="col-md-1"></div>
     <div class="col-md-8">
 
         <button class="btn btn-default" ng-click=vm.getReports()>Get the reports</button>
         <button class="btn btn-default" ng-click=vm.generateTestReport()>Generate test report</button>
 
         <table class="table table-striped">
+            <caption>Last Reports</caption>
             <thead>
                 <th>Report ID</th>
                 <th>Type</th>
@@ -50,9 +67,9 @@
 
                     <td>{{report.date | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                     <td>
-                        <button class="btn btn-success">View</button>
-                        <button class="btn btn-danger">Remove/Disable</button>
-                        <button class="btn btn-info">Mark</button>
+                        <button class="btn btn-success" ng-click="vm.viewReport(report._id)">View</button>
+                        <button class="btn btn-danger" ng-click="vm.removeReport(report._id)">Remove/Disable</button>
+                        <button class="btn btn-info" ng-click="vm.markReport(report._id)">Mark</button>
                     </td>
                 </tr>
             </tbody>
@@ -61,5 +78,19 @@
             </tfoot>
         </table>
     </div>
-    <div class="col-md-2">Last 10 dares</div>
+    <div class="col-md-3">
+        <table class="table">
+            <caption>Last Dares</caption>
+            <thead>
+                <th>Dare</th>
+                <th>Time</th>
+            </thead>
+            <tbody>
+                <tr ng-repeat="dare in vm.dares">
+                    <td>{{dare.title}}</td>
+                    <td>{{dare.startDate}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
